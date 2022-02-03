@@ -1,13 +1,26 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .serializers import *
 from .permissions import *
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 # Create your views here.
 
-class NewsListView(generics.ListAPIView):
-    serializer_class = NewsListSerializers
+
+class NewsListView(ModelViewSet):
     queryset = News.objects.all()
+    serializer_class = NewsListSerializers
+
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter
+    ]
+    filter_fields = ['title']
+    search_fields = ['title', 'description']
+    ordering_fields = ['title', 'created']
 
 
 class NewsCreationView(generics.CreateAPIView):

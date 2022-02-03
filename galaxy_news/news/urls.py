@@ -3,7 +3,7 @@ from .views import *
 
 
 urlpatterns = [
-    path('news/list/', NewsListView.as_view()),
+    path('news/list/', NewsListView.as_view({'get':'list'})),
     path('news/create/', NewsCreationView.as_view()),
     path('news/tags/', NewsTagsView.as_view()),
     path('news/category/', NewsCategoryView.as_view()),
